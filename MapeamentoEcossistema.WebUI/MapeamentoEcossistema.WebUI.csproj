@@ -144,6 +144,9 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Code\DataAnnotationsValidator.cs" />
+    <Compile Include="Code\EmailValidator.cs" />
+    <Compile Include="Code\Extensions.cs" />
     <Compile Include="Code\ResponseModelBinder.cs" />
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\KeepAliveController.cs" />
@@ -199,6 +202,7 @@
     <Compile Include="ViewModels\QuestionnaireViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\custom.css" />
     <Content Include="Content\img\bg-1.jpg" />
     <Content Include="Content\img\bg-2.jpg" />
     <Content Include="Content\img\logo-sebrae.png" />

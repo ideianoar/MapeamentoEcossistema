@@ -3,3 +3,4 @@
 @Html.Hidden("ModelType", Model.GetType())
 @Html.HiddenFor(model => model.QuestionId)
 @Html.TextBoxFor(model => model.ResponseText, new { placeholder = Model.Question.Title })
+@Html.ValidationMessageFor(model => model.ResponseText)

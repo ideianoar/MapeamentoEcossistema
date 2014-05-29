@@ -57,9 +57,10 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             {
                 SortOrder = 1,
                 Name = "Dados Iniciais",
-                Description = null,
-                Questionnaire = questionnaire
+                Description = null
             };
+
+            questionnaire.QuestionGroups.Add(group1);
 
             group1.Questions.Add(new FormQuestion()
             {
