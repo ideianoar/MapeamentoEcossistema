@@ -1,0 +1,43 @@
+﻿@model MapeamentoEcossistema.WebUI.Models.Questionnaire
+
+<style>
+    .row-max { height: 100%; }
+</style>
+
+<body class="bg-2">
+
+    <div class="geral">
+
+        <section class="conteudo">
+            <div class="row-max">
+                <div class="main-2 tela-3 grid_6 offset_3">
+                    @using (Html.BeginForm("Index", "Questionnaires", FormMethod.Post, new { @class = "hide-lables form-final" }))
+                    {
+                        <h2>Questionário Ecossistema Startups</h2>
+                        <hr>
+                        @Html.Hidden("QuestionnaireId", Model.Id)
+                        @Html.EditorFor(model => Model.QuestionGroups)
+
+                        <input type="submit" value="Enviar" style="float: right; margin-right: 19px" />
+                    }
+                </div>
+
+                <div class="creditos-desktop">
+                    <div class="grid_3 logo-container tela-3">
+                        <img src="/Content/img/logo-sebrae.png" alt="Sebrae">
+                        <p>
+                            2014 - Desenvolvido por Sebrae.
+                            <br />
+                            Todos os Direitos Reservados.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        window.setInterval(function () { $.get('/keepalive') }, 1000 * 60);
+    </script>
+
+</body>

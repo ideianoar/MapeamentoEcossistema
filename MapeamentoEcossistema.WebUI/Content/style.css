@@ -1,0 +1,283 @@
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0px auto;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    height: 100%;
+    margin: 0 auto !important;
+    font-family: 'bariol_regularregular';
+    font-size: 14px;
+    line-height: 20px;
+    color: #777;
+    background-size: auto 100%;
+}
+
+    body.bg-1 {
+        background: #BBD567 url(img/bg-1.jpg) center no-repeat;
+    }
+
+    body.bg-2 {
+        background: #BBD567 url(img/bg-2.jpg) center no-repeat;
+    }
+
+@media only screen and (min-width:1060px) {
+    body.bg-1, body.bg-2 {
+        background-size: 100% auto;
+    }
+}
+
+.geral {
+    min-height: 100%;
+    position: relative;
+    height: 100%;
+}
+
+* html .geral {
+    height: 100%; /* hack para IE6 que trata height como min-height */
+}
+
+
+
+section.conteudo {
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.main {
+    height: 56%;
+    border-radius: 3px;
+    border-top: 1px solid rgba(255, 255, 255, 0.64);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto !important;
+    text-align: center;
+    background: url(img/transparencia.png) 0 0 repeat;
+}
+
+
+
+    .main h1 {
+        font-family: sessionsregular;
+        font-size: 76px;
+        line-height: 76px;
+        color: #fff;
+        text-shadow: 2px 2px 10px #000;
+        margin: 30px auto;
+        text-transform: uppercase;
+    }
+
+
+
+    .main form p {
+        display: block;
+        text-align: center;
+        color: #fff;
+        clear: both;
+    }
+
+
+
+    .main.tela-2 {
+        height: 70%;
+        background: rgba(255, 255, 255, 0.69);
+    }
+
+        .main.tela-2 h1 {
+            color: #787878;
+            text-shadow: none;
+            margin-top: 60px;
+        }
+
+        .main.tela-2 form p {
+            color: #787878;
+        }
+
+
+        .main.tela-2 h1 {
+            color: #787878;
+            text-shadow: none;
+            margin-top: 60px;
+        }
+
+        .main.tela-2 form p {
+            color: #787878;
+        }
+
+
+.main-2 {
+    height: 90%;
+    overflow-y: auto;
+    border-radius: 3px;
+    border-top: 1px solid rgba(255, 255, 255, 0.64);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.69);
+    position: relative;
+    top: 34px !important;
+}
+
+    .main-2 h2 {
+        font-family: 'Exo', sans-serif;
+        font-size: 32px;
+        line-height: 36px;
+        color: #505050;
+        margin: 30px auto;
+    }
+
+    .main-2 h3 {
+        font-family: 'Arial', sans-serif;
+        font-size: 24px;
+        line-height: 36px;
+        color: #74A545;
+        text-align: left;
+        text-transform: uppercase;
+        position: relative;
+        display: block;
+        padding-left: 3%;
+        width: 94%;
+        margin-top: 30px;
+    }
+
+        .main-2 h3:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            display: block;
+            border-radius: 100%;
+            background: #74a545;
+            position: absolute;
+            left: 0;
+            top: 12px;
+        }
+
+hr {
+    border: none;
+    border-bottom: 1px solid #787878;
+    width: 80%;
+    display: block;
+    margin: 30px auto 10px;
+}
+
+
+
+.nysmnyd-labels fieldset input {
+    border: none;
+}
+
+.nysmnyd-labels fieldset label {
+    color: #000;
+}
+
+.nysmnyd-labels fieldset.campo-busca {
+    width: 50%;
+    margin-left: 15%;
+    float: left;
+    text-align: right;
+}
+
+.nysmnyd-labels fieldset.bt-enviar {
+    width: 18%;
+    float: right;
+    margin-right: 15%;
+    text-align: left;
+}
+
+    .nysmnyd-labels fieldset.bt-enviar input {
+        color: #fff;
+        margin-top: 0;
+        width: 100%;
+        background: #8bad5a;
+    }
+
+.nysmnyd-labels fieldset.campo-regiao {
+    width: 70%;
+    margin: 30px auto;
+}
+
+.form-final fieldset {
+    margin-left: 3%;
+    width: 94%;
+}
+
+    .form-final fieldset input {
+        background: transparent;
+        border: 1px solid #ADADAD;
+    }
+
+.form-final input[type="radio"]:checked + label:before {
+    border: 7px solid #74A545;
+}
+
+.form-final fieldset.show-label label {
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+.form-final p {
+    text-align: left;
+    font-size: 12px;
+    line-height: 14px;
+    margin-top: 20px;
+}
+
+.scroll {
+    height: 440px;
+    overflow-y: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.logo-container {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+}
+
+    .logo-container img {
+        width: 12%;
+    }
+
+    .logo-container.tela-2 p {
+        float: left;
+        color: #fff;
+        font-size: 11px;
+    }
+
+    .logo-container.tela-2 img {
+        width: 20%;
+    }
+
+.creditos-mobile {
+    display: none;
+}
+
+.creditos-desktop {
+    display: block;
+}
+
+.logo-container.tela-3 {
+    text-align: center;
+}
+
+    .logo-container.tela-3 p {
+        color: #fff;
+        font-size: 11px;
+        line-height: 14px;
+    }
+
+    .logo-container.tela-3 img {
+        width: 35%;
+        display: block;
+        margin: 20px auto;
+    }

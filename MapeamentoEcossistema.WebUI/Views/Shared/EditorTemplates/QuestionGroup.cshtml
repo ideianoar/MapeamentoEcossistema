@@ -1,0 +1,8 @@
+﻿@using MapeamentoEcossistema.WebUI.Models
+@model MapeamentoEcossistema.WebUI.Models.QuestionGroup
+
+<h3>@Model.Name</h3>
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.QuestionnaireId)
+@Html.EditorFor(model => model.Questions)

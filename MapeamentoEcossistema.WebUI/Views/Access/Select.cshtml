@@ -1,0 +1,38 @@
+﻿<body class="bg-2">
+    <div class="geral">
+        <section class="conteudo">
+            <div class="row-max">
+                <div class="main tela-2 grid_6 offset_3">
+                    @using (Html.BeginForm("Select", "Access", FormMethod.Post, new { id = "myForm", @class = "nysmnyd-labels" }))
+                    {
+                        <h1>Questionário Ecossistema
+                            <br>
+                            Startups</h1>
+
+                        <fieldset class="campo-regiao">
+                            <label for="options">Selecione</label>
+                            <span class="select">
+                                @Html.DropDownList("Id", null, "Selecione", new { id = "ddl" })
+                            </span>
+                            <small>Invalid entry</small>
+                        </fieldset>
+
+                        <p>Selecione o tipo do questionário</p>
+                    }
+                </div>
+            </div>
+
+            <div class="row-max logo-container tela-2">
+                <div class="grid_6 offset_3">
+                    <p>2014 - Desenvolvido por Sebrae. Todos os Direitos Reservados.</p>
+                    <img src="/Content/img/logo-sebrae.png" alt="Sebrae">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script type="text/javascript">
+        $('#ddl').change(function (e) { $('#myForm').submit() });
+    </script>
+
+</body>

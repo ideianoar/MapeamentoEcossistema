@@ -1,0 +1,5 @@
+﻿@model MapeamentoEcossistema.WebUI.Models.CheckpointQuestion
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.QuestionGroupId)
+@Html.EditorFor(model => model.Responses, Model)

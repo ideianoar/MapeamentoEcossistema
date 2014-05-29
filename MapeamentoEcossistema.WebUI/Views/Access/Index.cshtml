@@ -1,0 +1,33 @@
+﻿<body class="bg-1">
+    <div class="geral">
+        <section class="conteudo">
+            <div class="row-max">
+                <div class="main grid_6 offset_3">
+                    @using (Html.BeginForm("Index", "Access", FormMethod.Post, new { @class = "nysmnyd-labels" }))
+                    {
+                        <h1>Questionário Ecossistema
+                            <br>
+                            Startups</h1>
+                        <fieldset class="campo-busca">
+                            <label for="cod">Código</label>
+                            @Html.TextBox("accessToken", Request["accessToken"], new { id = "cod", placeholder = "Código" })
+                            <small>Código Inválido</small>
+                        </fieldset>
+
+                        <fieldset class="bt-enviar">
+                            <input type="submit" value="Buscar">
+                        </fieldset>
+
+                        <p>Insira o Código Verificador</p>
+                    }
+                </div>
+            </div>
+
+            <div class="row-max logo-container">
+                <div class="grid_12">
+                    <img src="/Content/img/logo-sebrae.png" alt="Sebrae">
+                </div>
+            </div>
+        </section>
+    </div>
+</body>

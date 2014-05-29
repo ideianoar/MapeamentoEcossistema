@@ -1,0 +1,118 @@
+/***********************************************
+Example use only - Delete when done..!
+***********************************************/
+body                                            { margin:20px 0; }
+.grid-highlight                                 { margin-bottom:5px; }
+.grid-highlight [class^="grid_"]                { line-height:30px; text-align:center; background-color:#F1F1F1; }
+
+
+
+/***********************************************
+Screen 1200px+
+***********************************************/
+.example                                        {  }
+
+
+
+/***********************************************
+Screen Smaller than 1199px
+***********************************************/
+@media only screen and (min-width:960px) and (max-width: 1199px) {
+
+.example                                        {  }
+
+
+
+}
+
+/***********************************************
+Tablet (Smaller than 959px)
+***********************************************/
+@media only screen and (min-width:768px) and (max-width: 959px) {
+	
+	.main{height: 54%; position: absolute; top: 0;}
+	
+	.main.tela-2{height: 57%; position: absolute;top: 0;}
+
+
+	.main h1{
+		font-size: 54px;
+		line-height: 64px;
+		margin: 30px auto;
+	} 
+	
+	.nysmnyd-labels fieldset.campo-busca{margin-left: 9%;}
+
+	.logo-container img{width: 16%;}
+
+	.logo-container.tela-2 img{ width: 22%;}
+
+	.creditos-mobile{display: table;height: 30px;}
+	.creditos-desktop{display: none;}
+}
+
+/***********************************************
+Mobile (portrait 300px)
+***********************************************/
+@media only screen and (max-width:767px) {
+	
+	.main{height: 54%; position: relative;top: 30px;}
+
+	.main.tela-2{height: 53%; position: relative;top: 30px;}
+
+	.main-2{
+    height: auto;
+    overflow: visible;
+}
+	
+	.main h1{
+		font-size: 54px;
+		line-height: 64px;
+		margin: 30px auto;
+	} 
+	
+	.nysmnyd-labels fieldset.campo-busca{margin-left: 7%;}	
+
+	.logo-container img{width: 35%;}
+
+	.logo-container.tela-2{text-align: center;}
+
+	.logo-container.tela-2 img{ width: 25%; clear: both;}
+
+	.logo-container.tela-3{text-align: center;margin-top: 10px;}
+
+	.logo-container.tela-3 p{ color: #fff; font-size: 11px;line-height: 14px;}
+
+	.logo-container.tela-3 img{ width: 20%; display: block; margin: 20px auto;}
+
+	.creditos-mobile{display: table;}
+	.creditos-desktop{display: none;}
+
+}
+
+/***********************************************
+Mobile (landscape 420px)
+***********************************************/
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+	.main{height: 54%; position: relative;top: 30px;}
+
+	.main.tela-2{height: 58%; position: relative;top: 40px;}
+
+	                                      
+	.main h1{
+		font-size: 74px;
+		line-height: 74px;
+		margin: 30px auto;
+	} 
+
+	
+	.nysmnyd-labels fieldset.campo-busca{margin-left: 14%;}
+
+	.logo-container img{width: 20%;}
+
+	.logo-container.tela-2 img{ width: 17%;}
+
+}
+
+

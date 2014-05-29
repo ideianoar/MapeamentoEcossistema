@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MapeamentoEcossistemaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CheckpointQuestions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="PrimaryPlaceholderText" Type="varchar" MaxLength="500" />
+          <Property Name="SecondaryPlaceholderText" Type="varchar" MaxLength="500" />
+          <Property Name="IsPrimaryQuestionMandatory" Type="bit" Nullable="false" />
+          <Property Name="IsSecondaryQuestionMandatory" Type="bit" Nullable="false" />
+          <Property Name="ExampleText" Type="varchar" MaxLength="2000" />
+          <Property Name="ProblemText" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="CheckpointResponses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="YesNoFlag" Type="bit" Nullable="false" />
+          <Property Name="PrimaryResponseText" Type="varchar" MaxLength="4000" />
+          <Property Name="SecondaryResponseText" Type="varchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="FormQuestions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FieldType" Type="smallint" Nullable="false" />
+          <Property Name="IsMandatory" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FormResponses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ResponseText" Type="varchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="QuestionGroups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionnaireId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="SortOrder" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Questionnaires">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Alias" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionGroupId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="SortOrder" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Responses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="SessionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccessToken" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_CheckpointQuestions_Questions">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+          <End Role="CheckpointQuestions" Type="Self.CheckpointQuestions" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckpointQuestions">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CheckpointResponses_Responses">
+          <End Role="Responses" Type="Self.Responses" Multiplicity="1" />
+          <End Role="CheckpointResponses" Type="Self.CheckpointResponses" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Responses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckpointResponses">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FormQuestions_Questions">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+          <End Role="FormQuestions" Type="Self.FormQuestions" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FormQuestions">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FormResponses_Responses">
+          <End Role="Responses" Type="Self.Responses" Multiplicity="1" />
+          <End Role="FormResponses" Type="Self.FormResponses" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Responses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FormResponses">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestionGroups_Questionnaires">
+          <End Role="Questionnaires" Type="Self.Questionnaires" Multiplicity="1" />
+          <End Role="QuestionGroups" Type="Self.QuestionGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questionnaires">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionGroups">
+              <PropertyRef Name="QuestionnaireId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions_QuestionGroups">
+          <End Role="QuestionGroups" Type="Self.QuestionGroups" Multiplicity="1" />
+          <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="QuestionGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Responses_Questions">
+          <End Role="Questions" Type="Self.Questions" Multiplicity="1" />
+          <End Role="Responses" Type="Self.Responses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Responses">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Responses_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Responses" Type="Self.Responses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Responses">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MapeamentoEcossistemaModelStoreContainer">
+          <EntitySet Name="CheckpointQuestions" EntityType="Self.CheckpointQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CheckpointResponses" EntityType="Self.CheckpointResponses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormQuestions" EntityType="Self.FormQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormResponses" EntityType="Self.FormResponses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionGroups" EntityType="Self.QuestionGroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questionnaires" EntityType="Self.Questionnaires" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Responses" EntityType="Self.Responses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CheckpointQuestions_Questions" Association="Self.FK_CheckpointQuestions_Questions">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="CheckpointQuestions" EntitySet="CheckpointQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CheckpointResponses_Responses" Association="Self.FK_CheckpointResponses_Responses">
+            <End Role="Responses" EntitySet="Responses" />
+            <End Role="CheckpointResponses" EntitySet="CheckpointResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FormQuestions_Questions" Association="Self.FK_FormQuestions_Questions">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="FormQuestions" EntitySet="FormQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FormResponses_Responses" Association="Self.FK_FormResponses_Responses">
+            <End Role="Responses" EntitySet="Responses" />
+            <End Role="FormResponses" EntitySet="FormResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestionGroups_Questionnaires" Association="Self.FK_QuestionGroups_Questionnaires">
+            <End Role="Questionnaires" EntitySet="Questionnaires" />
+            <End Role="QuestionGroups" EntitySet="QuestionGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions_QuestionGroups" Association="Self.FK_Questions_QuestionGroups">
+            <End Role="QuestionGroups" EntitySet="QuestionGroups" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Responses_Questions" Association="Self.FK_Responses_Questions">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="Responses" EntitySet="Responses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Responses_Users" Association="Self.FK_Responses_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Responses" EntitySet="Responses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MapeamentoEcossistemaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CheckpointQuestion" BaseType="MapeamentoEcossistemaModel.Question">
+          <Property Name="PrimaryPlaceholderText" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SecondaryPlaceholderText" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsPrimaryQuestionMandatory" Type="Boolean" Nullable="false" />
+          <Property Name="IsSecondaryQuestionMandatory" Type="Boolean" Nullable="false" />
+          <Property Name="ExampleText" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="ProblemText" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CheckpointResponse" BaseType="MapeamentoEcossistemaModel.Response">
+          <Property Name="YesNoFlag" Type="Boolean" Nullable="false" />
+          <Property Name="PrimaryResponseText" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="SecondaryResponseText" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FormQuestion" BaseType="MapeamentoEcossistemaModel.Question">
+          <Property Name="FieldType" Type="MapeamentoEcossistemaModel.FormQuestionFieldType" Nullable="false" />
+          <Property Name="IsMandatory" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FormResponse" BaseType="MapeamentoEcossistemaModel.Response">
+          <Property Name="ResponseText" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="QuestionGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionnaireId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="SortOrder" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Questionnaire" Relationship="Self.FK_QuestionGroups_Questionnaires" FromRole="QuestionGroups" ToRole="Questionnaires" />
+          <NavigationProperty Name="Questions" Relationship="Self.FK_Questions_QuestionGroups" FromRole="QuestionGroups" ToRole="Questions" />
+        </EntityType>
+        <EntityType Name="Questionnaire">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Alias" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="QuestionGroups" Relationship="Self.FK_QuestionGroups_Questionnaires" FromRole="Questionnaires" ToRole="QuestionGroups" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionGroupId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SortOrder" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="QuestionGroup" Relationship="Self.FK_Questions_QuestionGroups" FromRole="Questions" ToRole="QuestionGroups" />
+          <NavigationProperty Name="Responses" Relationship="Self.FK_Responses_Questions" FromRole="Questions" ToRole="Responses" />
+        </EntityType>
+        <EntityType Name="Response">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="SessionId" Type="Guid" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Question" Relationship="Self.FK_Responses_Questions" FromRole="Responses" ToRole="Questions" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Responses_Users" FromRole="Responses" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccessToken" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Responses" Relationship="Self.FK_Responses_Users" FromRole="Users" ToRole="Responses" />
+        </EntityType>
+        <Association Name="FK_QuestionGroups_Questionnaires">
+          <End Role="Questionnaires" Type="Self.Questionnaire" Multiplicity="1" />
+          <End Role="QuestionGroups" Type="Self.QuestionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questionnaires">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestionGroups">
+              <PropertyRef Name="QuestionnaireId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions_QuestionGroups">
+          <End Role="QuestionGroups" Type="Self.QuestionGroup" Multiplicity="1" />
+          <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionGroups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="QuestionGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Responses_Questions">
+          <End Role="Questions" Type="Self.Question" Multiplicity="1" />
+          <End Role="Responses" Type="MapeamentoEcossistemaModel.Response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Responses">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Responses_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Responses" Type="MapeamentoEcossistemaModel.Response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Responses">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MapeamentoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="QuestionGroups" EntityType="Self.QuestionGroup" />
+          <EntitySet Name="Questionnaires" EntityType="Self.Questionnaire" />
+          <EntitySet Name="Questions" EntityType="Self.Question" />
+          <EntitySet Name="Responses" EntityType="MapeamentoEcossistemaModel.Response" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_QuestionGroups_Questionnaires" Association="Self.FK_QuestionGroups_Questionnaires">
+            <End Role="Questionnaires" EntitySet="Questionnaires" />
+            <End Role="QuestionGroups" EntitySet="QuestionGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions_QuestionGroups" Association="Self.FK_Questions_QuestionGroups">
+            <End Role="QuestionGroups" EntitySet="QuestionGroups" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Responses_Questions" Association="Self.FK_Responses_Questions">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="Responses" EntitySet="Responses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Responses_Users" Association="Self.FK_Responses_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Responses" EntitySet="Responses" />
+          </AssociationSet>
+        </EntityContainer>
+        <EnumType Name="FormQuestionFieldType" UnderlyingType="Int16" a:ExternalTypeName="MapeamentoEcossistema.WebUI.Models.FormQuestionFieldType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MapeamentoEcossistemaModelStoreContainer" CdmEntityContainer="MapeamentoEntities">
+          <EntitySetMapping Name="QuestionGroups">
+            <EntityTypeMapping TypeName="MapeamentoEcossistemaModel.QuestionGroup">
+              <MappingFragment StoreEntitySet="QuestionGroups">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="QuestionnaireId" ColumnName="QuestionnaireId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questionnaires">
+            <EntityTypeMapping TypeName="MapeamentoEcossistemaModel.Questionnaire">
+              <MappingFragment StoreEntitySet="Questionnaires">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="IsTypeOf(MapeamentoEcossistemaModel.Question)">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="QuestionGroupId" ColumnName="QuestionGroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(MapeamentoEcossistemaModel.FormQuestion)">
+              <MappingFragment StoreEntitySet="FormQuestions">
+                <ScalarProperty Name="IsMandatory" ColumnName="IsMandatory" />
+                <ScalarProperty Name="FieldType" ColumnName="FieldType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(MapeamentoEcossistemaModel.CheckpointQuestion)">
+              <MappingFragment StoreEntitySet="CheckpointQuestions">
+                <ScalarProperty Name="ProblemText" ColumnName="ProblemText" />
+                <ScalarProperty Name="ExampleText" ColumnName="ExampleText" />
+                <ScalarProperty Name="IsSecondaryQuestionMandatory" ColumnName="IsSecondaryQuestionMandatory" />
+                <ScalarProperty Name="IsPrimaryQuestionMandatory" ColumnName="IsPrimaryQuestionMandatory" />
+                <ScalarProperty Name="SecondaryPlaceholderText" ColumnName="SecondaryPlaceholderText" />
+                <ScalarProperty Name="PrimaryPlaceholderText" ColumnName="PrimaryPlaceholderText" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Responses">
+            <EntityTypeMapping TypeName="IsTypeOf(MapeamentoEcossistemaModel.Response)">
+              <MappingFragment StoreEntitySet="Responses">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(MapeamentoEcossistemaModel.CheckpointResponse)">
+              <MappingFragment StoreEntitySet="CheckpointResponses">
+                <ScalarProperty Name="SecondaryResponseText" ColumnName="SecondaryResponseText" />
+                <ScalarProperty Name="PrimaryResponseText" ColumnName="PrimaryResponseText" />
+                <ScalarProperty Name="YesNoFlag" ColumnName="YesNoFlag" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(MapeamentoEcossistemaModel.FormResponse)">
+              <MappingFragment StoreEntitySet="FormResponses">
+                <ScalarProperty Name="ResponseText" ColumnName="ResponseText" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MapeamentoEcossistemaModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

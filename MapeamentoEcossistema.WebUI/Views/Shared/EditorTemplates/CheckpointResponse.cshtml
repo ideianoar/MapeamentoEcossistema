@@ -1,0 +1,47 @@
+﻿@model MapeamentoEcossistema.WebUI.Models.CheckpointResponse
+
+@Html.Hidden("ModelType", Model.GetType())
+
+@{
+    var idRadio1 = Guid.NewGuid().ToString();
+    var idRadio2 = Guid.NewGuid().ToString();
+}
+
+<fieldset class="show-label">
+    <label for="radio">@(ViewBag.SortOrder)- @ViewBag.Title</label>
+    <div class="radio">
+        <span>
+            @Html.RadioButtonFor(model => model.YesNoFlag, true, new { id = idRadio1 })
+            <label for="@idRadio1"><span></span>Sim</label>
+        </span>
+        <span>
+            @Html.RadioButtonFor(model => model.YesNoFlag, false, new { id = idRadio2 })
+            <label for="@idRadio2"><span></span>Não</label>
+
+        </span>
+        <small>Dados Inválidos</small>
+    </div>
+</fieldset>
+
+<fieldset>
+    @if (ViewBag.PrimaryPlaceholderText != null)
+    {
+        @Html.TextAreaFor(model => model.PrimaryResponseText, new { cols = "30", rows = "10", placeholder = ViewBag.PrimaryPlaceholderText })
+    }
+    @if (ViewBag.SecondaryPlaceholderText != null)
+    {
+        <br />
+        @Html.TextAreaFor(model => model.SecondaryResponseText, new { cols = "30", rows = "5", placeholder = ViewBag.SecondaryPlaceholderText })
+    }
+    <p>
+        @if (ViewBag.ExampleText != null)
+        {
+            <text>Exemplo: @ViewBag.ExampleText</text>
+        }
+        <br>
+        @if (ViewBag.ProblemText != null)
+        {
+            <text>Problema: @ViewBag.ProblemText</text>
+        }
+    </p>
+</fieldset>

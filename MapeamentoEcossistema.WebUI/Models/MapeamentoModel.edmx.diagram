@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="01eef25f9b614b5baed9762d0b0496c7" Name="Diagram1">
+        <EntityTypeShape EntityType="MapeamentoEcossistemaModel.CheckpointQuestion" Width="1.5" PointX="7.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MapeamentoEcossistemaModel.CheckpointResponse" Width="1.5" PointX="12.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MapeamentoEcossistemaModel.FormQuestion" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MapeamentoEcossistemaModel.FormResponse" Width="1.5" PointX="12.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MapeamentoEcossistemaModel.QuestionGroup" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MapeamentoEcossistemaModel.Questionnaire" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MapeamentoEcossistemaModel.Question" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MapeamentoEcossistemaModel.Response" Width="1.5" PointX="10.5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MapeamentoEcossistemaModel.User" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="MapeamentoEcossistemaModel.FK_QuestionGroups_Questionnaires" ManuallyRouted="false" />
+        <AssociationConnector Association="MapeamentoEcossistemaModel.FK_Questions_QuestionGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="MapeamentoEcossistemaModel.FK_Responses_Questions" ManuallyRouted="false" />
+        <AssociationConnector Association="MapeamentoEcossistemaModel.FK_Responses_Users" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="MapeamentoEcossistemaModel.CheckpointResponse" />
+        <InheritanceConnector EntityType="MapeamentoEcossistemaModel.CheckpointResponse" />
+        <InheritanceConnector EntityType="MapeamentoEcossistemaModel.FormResponse" />
+        <InheritanceConnector EntityType="MapeamentoEcossistemaModel.FormQuestion" />
+        <InheritanceConnector EntityType="MapeamentoEcossistemaModel.CheckpointQuestion" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
