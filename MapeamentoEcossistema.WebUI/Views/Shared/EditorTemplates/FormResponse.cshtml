@@ -1,6 +1,70 @@
-﻿@model MapeamentoEcossistema.WebUI.Models.FormResponse
+﻿@using MapeamentoEcossistema.WebUI.Models
+@model MapeamentoEcossistema.WebUI.Models.FormResponse
+
+@{
+    var fieldType = (FormQuestionFieldType)ViewBag.FieldType;
+    var idRadio1 = Guid.NewGuid().ToString();
+    var idRadio2 = Guid.NewGuid().ToString();
+}
 
 @Html.Hidden("ModelType", Model.GetType())
 @Html.HiddenFor(model => model.QuestionId)
-@Html.TextBoxFor(model => model.ResponseText, new { placeholder = Model.Question.Title })
+
+@switch (fieldType)
+{
+    case FormQuestionFieldType.Text:
+        @Html.TextBoxFor(model => model.ResponseText, new { placeholder = Model.Question.Title })
+        break;
+
+    case FormQuestionFieldType.MultilineText:
+        @Html.TextAreaFor(model => model.ResponseText, new { placeholder = Model.Question.Title })
+        break;
+        
+    case FormQuestionFieldType.Date:
+        @Html.TextBoxFor(model => model.ResponseText, new { placeholder = Model.Question.Title, data_inputmask = "data" })
+        break;
+
+    case FormQuestionFieldType.PhoneNumber:
+        @Html.TextBoxFor(model => model.ResponseText, new { placeholder = Model.Question.Title, @class = "create-phone-mask" })
+        break;
+        
+    case FormQuestionFieldType.EmailAddress:
+        @Html.TextBoxFor(model => model.ResponseText, new { placeholder = Model.Question.Title, type = "email" })
+        break;
+
+    case FormQuestionFieldType.YesNo:
+    {
+        <fieldset class="show-label no-margin">
+            <label for="radio">@Model.Question.Title</label>
+            <div class="radio">
+                <span>
+                    @Html.RadioButtonFor(model => model.ResponseText, true, new { id = idRadio1 })
+                    <label for="@idRadio1"><span></span>Sim</label>
+                </span>
+                <span>
+                    @Html.RadioButtonFor(model => model.ResponseText, false, new { id = idRadio2 })
+                    <label for="@idRadio2"><span></span>Não</label>
+                </span>
+            </div>
+        </fieldset>
+        break;
+    }
+        
+    case FormQuestionFieldType.Url:
+        @Html.TextBoxFor(model => model.ResponseText, new { placeholder = Model.Question.Title })
+        break;
+        
+    case FormQuestionFieldType.Integer:
+        @Html.TextBoxFor(model => model.ResponseText, new { placeholder = Model.Question.Title, data_inputmask_restrict = "numeros" })
+        break;
+        
+    case FormQuestionFieldType.Currency:
+        @Html.TextBoxFor(model => model.ResponseText, new { placeholder = Model.Question.Title, data_inputmask = "dinheiro" })
+        break;
+
+    default:
+        <text>ERRO: TIPO DE PERGUNTA NÃO RECONHECIDO</text>
+        break;
+}
+
 @Html.ValidationMessageFor(model => model.ResponseText)

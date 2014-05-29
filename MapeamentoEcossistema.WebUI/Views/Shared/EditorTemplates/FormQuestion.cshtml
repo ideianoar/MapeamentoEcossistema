@@ -4,6 +4,5 @@
     <label for="nome">@Model.Title</label>
     @Html.HiddenFor(model => model.Id)
     @Html.HiddenFor(model => model.QuestionGroupId)
-    @Html.EditorFor(model => model.Responses, Model)
-    <small>Código Inválido</small>
+    @Html.EditorFor(model => model.Responses, new { FieldType = Model.FieldType })
 </fieldset>

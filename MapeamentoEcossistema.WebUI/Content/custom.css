@@ -2,3 +2,52 @@
     border: 1px solid #d9534f !important;
     background-color: #fdf7f7 !important;
 }
+
+.show-label.no-margin {
+    margin: 0;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-success {
+    background-color: #dff0d8;
+    border-color: #3c763d;
+    color: #3c763d;
+}
+
+/* ====================
+// VALIDATION SUMMARY
+// ================= */
+
+.field-validation-error {
+    font-family: Arial;
+}
+
+div.validation-summary-errors {
+    font-family: Arial;
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 5px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #b94a48;
+}
+
+    div.validation-summary-errors ul {
+        margin: 0 0 0px 15px;
+        padding: 0;
+    }
+
+        div.validation-summary-errors ul li {
+            margin-bottom: 0;
+            background: none;
+        }

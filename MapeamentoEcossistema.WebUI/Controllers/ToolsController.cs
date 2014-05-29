@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,12 +20,67 @@ namespace MapeamentoEcossistema.WebUI.Controllers
         }
 
         // Actions.
+        public ActionResult CreateUser(string key, string name)
+        {
+            if (key != ConfigurationManager.AppSettings["SecretKey"])
+            {
+                return Content("Chave inválida.");
+            }
+
+            try
+            {
+                string accessToken = null;
+
+                if (String.IsNullOrEmpty(name))
+                {
+                    return Content("Informe o nome.");
+                }
+
+                var existingUser = _context.Users.Where(u => u.Name == name).FirstOrDefault();
+
+                if (existingUser != null)
+                {
+                    return Content("Já existe um usuário com este nome.");
+                }
+
+                while (true)
+                {
+                    accessToken = Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper();
+
+                    if (!_context.Users.Any(u => u.AccessToken == accessToken))
+                        break;
+                }
+
+                var user = new User()
+                {
+                    AccessToken = accessToken,
+                    Name = name
+                };
+
+                _context.Users.Add(user);
+
+                if (_context.SaveChanges() > 0)
+                    return Content(accessToken);
+                else
+                    return Content(":(");
+            }
+            catch (Exception ex)
+            {
+                return Content(String.Format("<pre>{0}</pre>", ex), "text/html");
+            }
+        }
         public ActionResult Seed()
         {
             try
             {
-                SeedStartupQuestionnaire();
                 SeedAcceleratorsQuestionnaire();
+                SeedCollegeQuestionnaire();
+                SeedCoworkingsQuestionnaire();
+                SeedIncubatorQuestionnaire();
+                SeedIndependentStartupGroupQuestionnaire();
+                SeedInvestorssQuestionnaire();
+                SeedStartupQuestionnaire();
+                SeedVendorsQuestionnaire();
 
                 if (_context.SaveChanges() > 0)
                 {
@@ -44,11 +100,14 @@ namespace MapeamentoEcossistema.WebUI.Controllers
         // Seed methods.
         private void SeedAcceleratorsQuestionnaire()
         {
+            if (_context.Questionnaires.Any(q => q.Alias == "accelerator"))
+                return;
+
             var questionnaire = new Questionnaire()
             {
                 Alias = "accelerator",
                 Description = null,
-                Name = "Aceleradoras",
+                Name = "Aceleradora",
             };
 
             #region Dados Iniciais
@@ -56,7 +115,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             var group1 = new QuestionGroup()
             {
                 SortOrder = 1,
-                Name = "Dados Iniciais",
+                Name = "Dados da Aceleradora",
                 Description = null
             };
 
@@ -98,7 +157,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             {
                 SortOrder = 5,
                 Title = "E-mail",
-                FieldType = FormQuestionFieldType.Text,
+                FieldType = FormQuestionFieldType.EmailAddress,
                 IsMandatory = true
             });
 
@@ -121,15 +180,15 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             group1.Questions.Add(new FormQuestion()
             {
                 SortOrder = 8,
-                Title = "Quantidade de aceleradoras",
-                FieldType = FormQuestionFieldType.Text,
+                Title = "Quantas startups aceleradas?",
+                FieldType = FormQuestionFieldType.Integer,
                 IsMandatory = true
             });
 
             group1.Questions.Add(new FormQuestion()
             {
                 SortOrder = 9,
-                Title = "Quais (opcional)?",
+                Title = "Quais? (opcional)",
                 FieldType = FormQuestionFieldType.Text,
                 IsMandatory = false
             });
@@ -138,7 +197,486 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             {
                 SortOrder = 10,
                 Title = "Quantas em aceleração?",
+                FieldType = FormQuestionFieldType.Integer,
+                IsMandatory = true
+            });
+
+            #endregion
+
+            _context.Questionnaires.Add(questionnaire);
+        }
+        private void SeedCollegeQuestionnaire()
+        {
+            if (_context.Questionnaires.Any(q => q.Alias == "college"))
+                return;
+
+            var questionnaire = new Questionnaire()
+            {
+                Alias = "college",
+                Description = null,
+                Name = "Universidade",
+            };
+
+            #region Dados Iniciais
+
+            var group1 = new QuestionGroup()
+            {
+                SortOrder = 1,
+                Name = "Dados da Universidade",
+                Description = null
+            };
+
+            questionnaire.QuestionGroups.Add(group1);
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 1,
+                Title = "Nome",
                 FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 2,
+                Title = "Telefone",
+                FieldType = FormQuestionFieldType.PhoneNumber,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 3,
+                Title = "Cidade",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 4,
+                Title = "Endereço",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 5,
+                Title = "E-mail",
+                FieldType = FormQuestionFieldType.EmailAddress,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 6,
+                Title = "Nome do contato",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 7,
+                Title = "Possui ações específicas para startups?",
+                FieldType = FormQuestionFieldType.YesNo,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 8,
+                Title = "Quais?",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = false
+            });
+
+            #endregion
+
+            _context.Questionnaires.Add(questionnaire);
+        }
+        private void SeedCoworkingsQuestionnaire()
+        {
+            if (_context.Questionnaires.Any(q => q.Alias == "coworking"))
+                return;
+
+            var questionnaire = new Questionnaire()
+            {
+                Alias = "coworking",
+                Description = null,
+                Name = "Coworking",
+            };
+
+            #region Dados Iniciais
+
+            var group1 = new QuestionGroup()
+            {
+                SortOrder = 1,
+                Name = "Dados do Coworking",
+                Description = null
+            };
+
+            questionnaire.QuestionGroups.Add(group1);
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 1,
+                Title = "Nome",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 2,
+                Title = "Telefone",
+                FieldType = FormQuestionFieldType.PhoneNumber,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 3,
+                Title = "Cidade",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 4,
+                Title = "Endereço",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 5,
+                Title = "E-mail",
+                FieldType = FormQuestionFieldType.EmailAddress,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 6,
+                Title = "Nome do contato",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 7,
+                Title = "Tempo de existência",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 8,
+                Title = "Total de clientes",
+                FieldType = FormQuestionFieldType.Integer,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 9,
+                Title = "Total de startups",
+                FieldType = FormQuestionFieldType.Integer,
+                IsMandatory = true
+            });
+
+            #endregion
+
+            _context.Questionnaires.Add(questionnaire);
+        }
+        private void SeedIncubatorQuestionnaire()
+        {
+            if (_context.Questionnaires.Any(q => q.Alias == "incubator"))
+                return;
+
+            var questionnaire = new Questionnaire()
+            {
+                Alias = "incubator",
+                Description = null,
+                Name = "Incubadora",
+            };
+
+            #region Dados Iniciais
+
+            var group1 = new QuestionGroup()
+            {
+                SortOrder = 1,
+                Name = "Dados da Incubadora",
+                Description = null
+            };
+
+            questionnaire.QuestionGroups.Add(group1);
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 1,
+                Title = "Nome",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 2,
+                Title = "Telefone",
+                FieldType = FormQuestionFieldType.PhoneNumber,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 3,
+                Title = "Cidade",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 4,
+                Title = "Endereço",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 5,
+                Title = "E-mail",
+                FieldType = FormQuestionFieldType.EmailAddress,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 6,
+                Title = "Nome do contato",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 7,
+                Title = "Tempo de existência",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 8,
+                Title = "Quantas startups já foram incubadas?",
+                FieldType = FormQuestionFieldType.Integer,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 9,
+                Title = "Quantas startups atualmente incubadas?",
+                FieldType = FormQuestionFieldType.Integer,
+                IsMandatory = false
+            });
+
+            #endregion
+
+            _context.Questionnaires.Add(questionnaire);
+        }
+        private void SeedIndependentStartupGroupQuestionnaire()
+        {
+            if (_context.Questionnaires.Any(q => q.Alias == "independent-startup-group"))
+                return;
+
+            var questionnaire = new Questionnaire()
+            {
+                Alias = "independent-startup-group",
+                Description = null,
+                Name = "Grupo Autônomo de Startups",
+            };
+
+            #region Dados Iniciais
+
+            var group1 = new QuestionGroup()
+            {
+                SortOrder = 1,
+                Name = "Dados do Grupo Autônomo de Startups",
+                Description = null
+            };
+
+            questionnaire.QuestionGroups.Add(group1);
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 1,
+                Title = "Nome",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 2,
+                Title = "Telefone",
+                FieldType = FormQuestionFieldType.PhoneNumber,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 3,
+                Title = "Cidade",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 4,
+                Title = "Endereço",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 5,
+                Title = "E-mail",
+                FieldType = FormQuestionFieldType.EmailAddress,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 6,
+                Title = "Nome do contato",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 7,
+                Title = "Quantos participantes?",
+                FieldType = FormQuestionFieldType.Integer,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 8,
+                Title = "Quantos gestores ativos?",
+                FieldType = FormQuestionFieldType.Integer,
+                IsMandatory = true
+            });
+
+            #endregion
+
+            _context.Questionnaires.Add(questionnaire);
+        }
+        private void SeedInvestorssQuestionnaire()
+        {
+            if (_context.Questionnaires.Any(q => q.Alias == "investor"))
+                return;
+
+            var questionnaire = new Questionnaire()
+            {
+                Alias = "investor",
+                Description = null,
+                Name = "Investidor",
+            };
+
+            #region Dados Iniciais
+
+            var group1 = new QuestionGroup()
+            {
+                SortOrder = 1,
+                Name = "Dados do Investidor",
+                Description = null
+            };
+
+            questionnaire.QuestionGroups.Add(group1);
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 1,
+                Title = "Nome",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 2,
+                Title = "Telefone",
+                FieldType = FormQuestionFieldType.PhoneNumber,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 3,
+                Title = "Cidade",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 4,
+                Title = "Endereço",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 5,
+                Title = "E-mail",
+                FieldType = FormQuestionFieldType.EmailAddress,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 6,
+                Title = "Nome do contato",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 7,
+                Title = "Já investiu em startup?",
+                FieldType = FormQuestionFieldType.YesNo,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 8,
+                Title = "Quais? (opcional)",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 9,
+                Title = "Valor disponível para investimento",
+                FieldType = FormQuestionFieldType.Currency,
                 IsMandatory = false
             });
 
@@ -148,6 +686,9 @@ namespace MapeamentoEcossistema.WebUI.Controllers
         }
         private void SeedStartupQuestionnaire()
         {
+            if (_context.Questionnaires.Any(q => q.Alias == "startup"))
+                return;
+
             var questionnaire = new Questionnaire()
             {
                 Alias = "startup",
@@ -160,7 +701,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             var group1 = new QuestionGroup()
             {
                 SortOrder = 1,
-                Name = "Dados Iniciais",
+                Name = "Dados da Startup",
                 Description = null
             };
 
@@ -171,6 +712,14 @@ namespace MapeamentoEcossistema.WebUI.Controllers
                 SortOrder = 1,
                 Title = "Nome da startup",
                 FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 1,
+                Title = "Site",
+                FieldType = FormQuestionFieldType.Url,
                 IsMandatory = true
             });
 
@@ -394,7 +943,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             {
                 SortOrder = 1,
                 Title = "Em média quantos projetos de startups os fundadores já participaram (excluindo esta)?",
-                FieldType = FormQuestionFieldType.Text,
+                FieldType = FormQuestionFieldType.Integer,
                 IsMandatory = false
             });
 
@@ -402,7 +951,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             {
                 SortOrder = 2,
                 Title = "Quantos projetos dos empreendedores obtiveram sucesso?",
-                FieldType = FormQuestionFieldType.Text,
+                FieldType = FormQuestionFieldType.Integer,
                 IsMandatory = false
             });
 
@@ -410,7 +959,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             {
                 SortOrder = 3,
                 Title = "Já tiveram alguma relação com investidores?",
-                FieldType = FormQuestionFieldType.Text,
+                FieldType = FormQuestionFieldType.YesNo,
                 IsMandatory = false
             });
 
@@ -418,8 +967,91 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             {
                 SortOrder = 4,
                 Title = "Quantos receberam investimento?",
-                FieldType = FormQuestionFieldType.Text,
+                FieldType = FormQuestionFieldType.Integer,
                 IsMandatory = false
+            });
+
+            #endregion
+
+            _context.Questionnaires.Add(questionnaire);
+        }
+        private void SeedVendorsQuestionnaire()
+        {
+            if (_context.Questionnaires.Any(q => q.Alias == "vendor"))
+                return;
+
+            var questionnaire = new Questionnaire()
+            {
+                Alias = "vendor",
+                Description = null,
+                Name = "Fornecedor",
+            };
+
+            #region Dados Iniciais
+
+            var group1 = new QuestionGroup()
+            {
+                SortOrder = 1,
+                Name = "Dados do Fornecedor",
+                Description = null
+            };
+
+            questionnaire.QuestionGroups.Add(group1);
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 1,
+                Title = "Nome",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 2,
+                Title = "Telefone",
+                FieldType = FormQuestionFieldType.PhoneNumber,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 3,
+                Title = "Cidade",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 4,
+                Title = "Endereço",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 5,
+                Title = "E-mail",
+                FieldType = FormQuestionFieldType.EmailAddress,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 6,
+                Title = "Nome do contato",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
+            });
+
+            group1.Questions.Add(new FormQuestion()
+            {
+                SortOrder = 7,
+                Title = "Área de atuação",
+                FieldType = FormQuestionFieldType.Text,
+                IsMandatory = true
             });
 
             #endregion

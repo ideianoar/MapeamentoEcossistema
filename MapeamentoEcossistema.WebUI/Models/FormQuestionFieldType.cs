@@ -11,6 +11,10 @@ namespace MapeamentoEcossistema.WebUI.Models
         MultilineText = 1,
         Date = 2,
         PhoneNumber = 3,
-        EmailAddress = 4
+        EmailAddress = 4,
+        YesNo = 5,
+        Url = 6,
+        Integer = 7,
+        Currency = 8
     }
 }

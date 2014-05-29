@@ -15,6 +15,11 @@
                     {
                         <h2>Questionário Ecossistema Startups</h2>
                         <hr>
+                        
+                        <div style="margin: 0 61px">
+                            @Html.ValidationSummary(true)
+                        </div>
+                        
                         @Html.Hidden("QuestionnaireId", Model.Id)
                         @Html.EditorFor(model => Model.QuestionGroups)
 
@@ -38,6 +43,8 @@
 
     <script>
         window.setInterval(function () { $.get('/keepalive') }, 1000 * 60);
+        $(':text:first').focus();
+        $('.create-phone-mask').arcnetmask('(00) 00000-0000');
     </script>
 
 </body>

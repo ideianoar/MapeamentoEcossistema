@@ -36,7 +36,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
             }
             else
             {
-                ViewBag.Error = true;
+                ModelState.AddModelError("", "Código de acesso inválido.");
                 return View();
             }
         }

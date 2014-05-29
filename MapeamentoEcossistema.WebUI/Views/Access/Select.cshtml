@@ -9,15 +9,20 @@
                             <br>
                             Startups</h1>
 
+                        if (TempData["SUCCESS_MESSAGE"] != null)
+                        {
+                            <div class="alert alert-success" style="margin: 0 94px">
+                                @TempData["SUCCESS_MESSAGE"]
+                            </div>
+                        }
+                        
                         <fieldset class="campo-regiao">
                             <label for="options">Selecione</label>
                             <span class="select">
-                                @Html.DropDownList("Id", null, "Selecione", new { id = "ddl" })
+                                @Html.DropDownList("Id", null, "Selecione o tipo do questionário", new { id = "ddl" })
                             </span>
                             <small>Invalid entry</small>
                         </fieldset>
-
-                        <p>Selecione o tipo do questionário</p>
                     }
                 </div>
             </div>

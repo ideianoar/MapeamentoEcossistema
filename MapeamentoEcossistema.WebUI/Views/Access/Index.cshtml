@@ -8,17 +8,21 @@
                         <h1>Questionário Ecossistema
                             <br>
                             Startups</h1>
+                        
+                        <div style="margin: 0 95px">
+                            @Html.ValidationSummary(true)
+                        </div>
+                        
                         <fieldset class="campo-busca">
-                            <label for="cod">Código</label>
-                            @Html.TextBox("accessToken", Request["accessToken"], new { id = "cod", placeholder = "Código" })
+                            @Html.TextBox("accessToken", Request["accessToken"], new { id = "cod", placeholder = "Insira o Código Verificador" })
                             <small>Código Inválido</small>
                         </fieldset>
 
                         <fieldset class="bt-enviar">
-                            <input type="submit" value="Buscar">
+                            <input type="submit" value="Entrar">
                         </fieldset>
 
-                        <p>Insira o Código Verificador</p>
+                        @*<p>Insira o Código Verificador</p>*@
                     }
                 </div>
             </div>
@@ -30,4 +34,6 @@
             </div>
         </section>
     </div>
+
+    <script>$(':text').focus()</script>
 </body>

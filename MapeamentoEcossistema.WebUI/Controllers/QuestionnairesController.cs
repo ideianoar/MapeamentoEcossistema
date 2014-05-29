@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using MapeamentoEcossistema.WebUI.Models;
 using MapeamentoEcossistema.WebUI.ViewModels;
 using MapeamentoEcossistema.WebUI.Code;
+using System.Text.RegularExpressions;
 
 namespace MapeamentoEcossistema.WebUI.Controllers
 {
@@ -20,6 +21,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
         public QuestionnairesController(MapeamentoEntities context)
         {
             _context = context;
+            _context.Configuration.LazyLoadingEnabled = false;
         }
 
         // Actions.
@@ -68,6 +70,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
 
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("", "Existem alguns erros de preenchimento. Por favor, corrija e tente novamente.");
                 return View(dbQuestionnaire);
             }
 
@@ -77,16 +80,17 @@ namespace MapeamentoEcossistema.WebUI.Controllers
                 return View(dbQuestionnaire);
             }
 
-            return RedirectToAction("Confirmation");
+            TempData["SUCCESS_MESSAGE"] = "As respostas foram registradas com sucesso.";
+            return RedirectToAction("Select", "Access");
         }
 
         // Private methods.
-        private void MapResponses(Questionnaire myQuestionnaire, Questionnaire questionnaire, Guid sessionId)
+        private void MapResponses(Questionnaire dbQuestionnaire, Questionnaire formQuestionnaire, Guid sessionId)
         {
             // Faz o mapeamento das respostas.
-            foreach (var g in myQuestionnaire.QuestionGroups)
+            foreach (var g in dbQuestionnaire.QuestionGroups)
             {
-                var correspondingGroup = questionnaire.QuestionGroups.Single(cg => cg.Id == g.Id);
+                var correspondingGroup = formQuestionnaire.QuestionGroups.Single(cg => cg.Id == g.Id);
 
                 foreach (var q in g.Questions)
                 {
@@ -102,7 +106,7 @@ namespace MapeamentoEcossistema.WebUI.Controllers
 
                     // Valida a resposta e adiciona a ModelState.
                     int groupIndex, questionIndex, responseIndex;
-                    GetIndexes(myQuestionnaire, g, q, response, out groupIndex, out questionIndex, out responseIndex);
+                    GetIndexes(dbQuestionnaire, g, q, response, out groupIndex, out questionIndex, out responseIndex);
                     SanitizeAndValidateReponse(response, q, groupIndex, questionIndex, responseIndex);
                 }
             }
@@ -134,6 +138,15 @@ namespace MapeamentoEcossistema.WebUI.Controllers
 
                     switch (formQuestion.FieldType)
                     {
+                        case FormQuestionFieldType.Currency:
+                        {
+                            decimal parsedDecimal;
+                            if (!Decimal.TryParse(formResponse.ResponseText, out parsedDecimal))
+                                ModelState.AddModelError(basePropName + "ResponseText",
+                                    "Informe um valor monetário válido (ex.: 1.245,50)");
+                            break;
+                        }
+
                         case FormQuestionFieldType.Text:
                         case FormQuestionFieldType.MultilineText:
                         {
@@ -153,14 +166,46 @@ namespace MapeamentoEcossistema.WebUI.Controllers
                         }
 
                         case FormQuestionFieldType.PhoneNumber:
-                            // TODO: adicionar validação.
+                        {
+                            if (!Regex.IsMatch(formResponse.ResponseText, @"\(\d{2}\)\s[\d\-]{9,10}"))
+                                ModelState.AddModelError(basePropName + "ResponseText",
+                                    "Informe um número de telefone completo (ex.: (41) 1234-1234.");
                             break;
+                        }
 
                         case FormQuestionFieldType.EmailAddress:
+                        {
                             if (!EmailValidator.IsValid(formResponse.ResponseText))
                                 ModelState.AddModelError(basePropName + "ResponseText",
                                     "Informe um e-mail válido.");
                             break;
+                        }
+
+                        case FormQuestionFieldType.Integer:
+                        {
+                            if (Regex.IsMatch(formResponse.ResponseText, @"\D"))
+                                ModelState.AddModelError(basePropName + "ResponseText",
+                                    "Este campo deve conter apenas números.");
+                            break;
+                        }
+
+                        case FormQuestionFieldType.Url:
+                        {
+                            if (!formResponse.ResponseText.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                                formResponse.ResponseText = "http://" + formResponse.ResponseText;
+                            if (!Regex.IsMatch(formResponse.ResponseText, @"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$"))
+                                ModelState.AddModelError(basePropName + "ResponseText",
+                                    "Informe uma URL válida (ex.: http://www.dominio.com).");
+                            break;
+                        }
+
+                        case FormQuestionFieldType.YesNo:
+                        {
+                            if (!formResponse.ResponseText.Equals("false", StringComparison.OrdinalIgnoreCase) && !formResponse.ResponseText.Equals("true", StringComparison.OrdinalIgnoreCase))
+                                ModelState.AddModelError(basePropName + "ResponseText",
+                                    "Selecione uma opção.");
+                            break;
+                        }
                     }
                 }
             }

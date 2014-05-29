@@ -1,8 +1,8 @@
-CREATE DATABASE MapeamentoEcossistema
-GO
+--CREATE DATABASE MapeamentoEcossistema
+--GO
 
-USE MapeamentoEcossistema
-GO
+--USE MapeamentoEcossistema
+--GO
 
 -- Usuários com acesso ao sistema.
 CREATE TABLE Users (
@@ -65,7 +65,6 @@ CREATE TABLE Responses (
 	QuestionId INT NOT NULL,
 	UserId INT NOT NULL,
 	SessionId UNIQUEIDENTIFIER NOT NULL, /* Um mesmo usuário pode responder ao mesmo questionário várias vezes. Este campo serve para agrupar as respostas no momento de enviar o formulário. */
-	ResponseType TINYINT NOT NULL /* Conforme enum da aplicação, identifica se a resposta é de formulário ou checkpoint. */,
 	CreatedDateTime DATETIME NOT NULL,
 	CONSTRAINT PK_Responses PRIMARY KEY (Id),
 	CONSTRAINT FK_Responses_Questions FOREIGN KEY (QuestionId) REFERENCES Questions(Id),

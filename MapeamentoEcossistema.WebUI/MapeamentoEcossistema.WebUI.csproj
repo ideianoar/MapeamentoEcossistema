@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML">
+      <HintPath>..\packages\ClosedXML.0.71.1\lib\net40-client\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\packages\DocumentFormat.OpenXml.1.0\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
@@ -145,12 +151,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Code\DataAnnotationsValidator.cs" />
+    <Compile Include="Code\DateTimeZoneHelper.cs" />
     <Compile Include="Code\EmailValidator.cs" />
+    <Compile Include="Code\ExcelExporter.cs" />
     <Compile Include="Code\Extensions.cs" />
     <Compile Include="Code\ResponseModelBinder.cs" />
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\KeepAliveController.cs" />
     <Compile Include="Controllers\QuestionnairesController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -257,7 +266,11 @@
       <DependentUpon>MapeamentoModel.edmx</DependentUpon>
       <LastGenOutput>MapeamentoModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\mapeamentoecossistema - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\mapeamentoecossistema - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\arcnet.simple.mask.js" />
+    <Content Include="Scripts\arcnet.simple.mask.min.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -277,12 +290,11 @@
     <Content Include="Views\Access\Index.cshtml" />
     <Content Include="Views\Access\Select.cshtml" />
     <Content Include="Views\Questionnaires\Index.cshtml" />
-    <Content Include="Views\Questionnaires\Confirmation.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\QuestionGroup.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CheckpointQuestion.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FormQuestion.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\FormResponse.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CheckpointResponse.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\FormResponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
